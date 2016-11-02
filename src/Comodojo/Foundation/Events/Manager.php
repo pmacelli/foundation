@@ -1,6 +1,6 @@
 <?php namespace Comodojo\Foundation\Events;
 
-use \Comodojo\Foundation\Logger\NullLogger;
+use \Comodojo\Foundation\Logging\Manager as LogManager;
 use \Psr\Log\LoggerInterface;
 use \League\Event\Emitter;
 use \League\Event\ListenerInterface;
@@ -23,23 +23,17 @@ use \League\Event\ListenerInterface;
 
 class Manager extends Emitter {
 
-    public $logger;
+    private $logger;
 
     public function __construct(LoggerInterface $logger = null) {
 
-        $this->logger = is_null($logger) ? new NullLogger : $logger;
+        $this->logger = is_null($logger) ? LogManager::create(null, false) : $logger;
 
     }
 
     public function getLogger() {
 
         return $this->logger;
-
-    }
-
-    public function setLogger(LoggerInterface $logger) {
-
-        $this->logger = $logger;
 
     }
 
@@ -60,6 +54,12 @@ class Manager extends Emitter {
         if ( $callable === false ) return false;
 
         return $this->addOneTimeListener($event, $callable, $priority);
+
+    }
+
+    public static function create(LoggerInterface $logger = null) {
+
+        return new Manager($logger);
 
     }
 

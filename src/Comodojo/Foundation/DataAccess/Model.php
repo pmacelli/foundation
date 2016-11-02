@@ -1,5 +1,8 @@
 <?php namespace Comodojo\Foundation\DataAccess;
 
+use \UnexpectedValueException;
+use \BadMethodCallException;
+
 /**
  * @package     Comodojo Foundation
  * @author      Marco Giovinazzi <marco.giovinazzi@comodojo.org>
@@ -19,6 +22,14 @@
 
 class Model {
 
+    const READWRITE = 1;
+
+    const PROTECTDATA = 2;
+
+    const READONLY = 3;
+
+    protected $mode;
+
     protected $data = array();
 
     public function __get($name) {
@@ -35,11 +46,17 @@ class Model {
 
     public function __set($name, $value) {
 
+        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot set items in readonly data mode");
+
+        if ( $this->mode === self::PROTECTDATA && !array_key_exists($name, $this->data) ) throw new UnexpectedValueException("Cannot add items in protected data mode");
+
         $this->data[$name] = $value;
 
     }
 
     public function __unset($name) {
+
+        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot delete items in readonly data mode");
 
         if ( isset($this->$name) ) unset($data[$name]);
 
@@ -68,6 +85,10 @@ class Model {
     }
 
     public function import($data) {
+
+        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot import items in readonly data mode");
+
+        if ( $this->mode === self::PROTECTDATA && !empty(array_diff_key($this->data, $data)) ) throw new UnexpectedValueException("Cannot import new items in protected data mode");
 
         $this->data = $data;
 
