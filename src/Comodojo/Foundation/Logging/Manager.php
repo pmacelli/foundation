@@ -28,7 +28,7 @@ class Manager {
 
     public function __construct($name = null) {
 
-        $logger = new Logger(empty($name) ? DEFAULT_LOGGER_NAME : $name);
+        $logger = new Logger(empty($name) ? self::DEFAULT_LOGGER_NAME : $name);
 
     }
 
