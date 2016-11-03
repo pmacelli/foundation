@@ -19,7 +19,7 @@ use \Monolog\Logger;
  */
 
 
-class LogManager {
+class Levels {
 
     const DEFAULT_LOG_LEVEL = 'ERROR';
 
@@ -47,7 +47,7 @@ class LogManager {
 
         if ( array_key_exists($level, self::$levels) ) return self::$levels[$level];
 
-        return self::$levels[DEFAULT_LOG_LEVEL];
+        return self::$levels[self::DEFAULT_LOG_LEVEL];
 
     }
 

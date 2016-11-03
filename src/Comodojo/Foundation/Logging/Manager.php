@@ -28,7 +28,7 @@ class Manager {
 
     public function __construct($name = null) {
 
-        $logger = new Logger(empty($name) ? self::DEFAULT_LOGGER_NAME : $name);
+        $this->logger = new Logger(empty($name) ? self::DEFAULT_LOGGER_NAME : $name);
 
     }
 
@@ -40,7 +40,7 @@ class Manager {
 
     public function init($enable = true, $providers = array()) {
 
-        if ( !$enabled ) {
+        if ( !$enable ) {
 
             $this->logger->pushHandler( ProviderBuilder::NullHandler() );
 

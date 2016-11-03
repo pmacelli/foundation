@@ -79,7 +79,7 @@ class ProviderBuilder {
 
         $level = Levels::getLevel( empty($parameters['level']) ? null : $parameters['level'] );
 
-        new NullHandler( Levels::getLevel() );
+        return new NullHandler( Levels::getLevel() );
 
     }
 
