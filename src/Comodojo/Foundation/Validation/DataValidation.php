@@ -19,7 +19,7 @@ use \InvalidArgumentException;
  * THE SOFTWARE.
  */
 
-class Validation {
+class DataValidation {
 
     const STRING = 'STRING';
     const REGEX = 'STRING';
