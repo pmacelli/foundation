@@ -1,8 +1,10 @@
-<?php namespace Comodojo\Foundation\Uils;
+<?php namespace Comodojo\Foundation\Utils;
 
 use \Comodojo\Foundation\DataAccess\Model;
 use \Comodojo\Foundation\DataAccess\IteratorTrait;
 use \Comodojo\Foundation\DataAccess\CountableTrait;
+use \Iterator;
+use \Countable;
 
 /**
  * @package     Comodojo Foundation
