@@ -58,7 +58,7 @@ class Model {
 
         if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot delete items in readonly data mode");
 
-        if ( isset($this->$name) ) unset($data[$name]);
+        if ( isset($this->$name) ) unset($this->data[$name]);
 
     }
 
