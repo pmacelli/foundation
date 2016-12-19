@@ -12,7 +12,7 @@
     stopOnFailure="false">
     <testsuites>
         <testsuite name="Comodojo Test Suite - foundation">
-            <directory>tests/Foundation/</directory>
+            <directory>tests/Comodojo/Foundation/</directory>
         </testsuite>
     </testsuites>
     <filter>

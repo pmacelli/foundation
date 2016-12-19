@@ -1,5 +1,6 @@
 <?php namespace Comodojo\Foundation\Validation;
 
+use \DateTime;
 use \UnexpectedValueException;
 use \InvalidArgumentException;
 
@@ -22,79 +23,101 @@ use \InvalidArgumentException;
 class DataValidation {
 
     const STRING = 'STRING';
-    const REGEX = 'STRING';
     const BOOL = 'BOOL';
     const BOOLEAN = 'BOOL';
     const INT = 'INT';
     const INTEGER = 'INT';
     const NUMBER = 'NUMBER';
-    const DOUBLE = 'DOUBLE';
+    const DOUBLE = 'FLOAT';
     const FLOAT = 'FLOAT';
     const JSON = 'JSON';
     const SERIALIZED = 'SERIALIZED';
+    const ARRAYSTRICT = 'ARRAYSTRICT';
+    const STRUCT = 'STRUCT';
+    const DATETIMEISO8601 = 'DATETIMEISO8601';
 
-    private $supported_types = array (
+    private static $supported_types = array (
         "STRING" => 'self::validateString',
-        "REGEX" => 'self::validateRegex',
         "BOOL" => 'self::validateBoolean',
-        "BOOLEAN" => 'self::validateBoolean',
         "INT" => 'self::validateInteger',
-        "INTEGER" => 'self::validateInteger',
         "NUMBER" => 'self::validateNumeric',
-        "DOUBLE" => 'self::validateFloat',
         "FLOAT" => 'self::validateFloat',
         "JSON" => 'self::validateJson',
-        "SERIALIZED" => 'self::validateSerialized'
+        "SERIALIZED" => 'self::validateSerialized',
+        "ARRAYSTRICT" => 'self::validateArrayStrict',
+        "STRUCT" => 'self::validateStruct',
+        "DATETIMEISO8601" => 'self::validateDatetimeIso8601'
     );
 
-    public static function validate($data, $type, $filter=null) {
+    public static function validate($data, $type, callable $filter=null) {
 
         $type = strtoupper($type);
 
-        if ( !array_key_exists($type, $this->supported_types) ) {
+        if ( !array_key_exists($type, self::$supported_types) ) {
             throw new UnexpectedValueException("Bad validation type");
         }
 
-        if ( call_user_func($this->supported_types[$type], $data, $filter) === false ) {
-            throw new InvalidArgumentException("Bad value $data for a $type");
-        }
-
-        return true;
+        return call_user_func(self::$supported_types[$type], $data, $filter);
 
     }
 
-    public static function validateString($data, $filter=null) {
-        return is_string($data);
+    public static function validateString($data, callable $filter=null) {
+        if ( is_string($data) === false ) return false;
+        return self::applyFilter($data, $filter);
     }
 
-    public static function validateRegex($data, $filter=null) {
-        return preg_match($filter, $data);
+    public static function validateBoolean($data, callable $filter=null) {
+        if ( is_bool($data) === false ) return false;
+        return self::applyFilter($data, $filter);
     }
 
-    public static function validateBoolean($data, $filter=null) {
-        return is_bool($data);
+    public static function validateInteger($data, callable $filter=null) {
+        if ( is_int($data) === false ) return false;
+        return self::applyFilter($data, $filter);
     }
 
-    public static function validateInteger($data, $filter=null) {
-        return is_int($data);
+    public static function validateNumeric($data, callable $filter=null) {
+        if ( is_numeric($data) === false ) return false;
+        return self::applyFilter($data, $filter);
     }
 
-    public static function validateNumeric($data, $filter=null) {
-        return is_numeric($data);
+    public static function validateFloat($data, callable $filter=null) {
+        if ( is_float($data) === false ) return false;
+        return self::applyFilter($data, $filter);
     }
 
-    public static function validateFloat($data, $filter=null) {
-        return is_float($data);
-    }
-
-    public static function validateJson($data, $filter=null) {
+    public static function validateJson($data, callable $filter=null) {
         $decoded = json_decode($data);
-        return !is_null($decoded);
+        if ( is_null($decoded) ) return false;
+        return self::applyFilter($data, $filter);
     }
 
-    public static function validateSerialized($data, $filter=null) {
-        $decoded = unserialize($data);
-        return ($decoded == serialize(false) || $decoded !== false);
+    public static function validateSerialized($data, callable $filter=null) {
+        $decoded = @unserialize($data);
+        if ( $decoded === false && $data != @serialize(false) ) return false;
+        return self::applyFilter($data, $filter);
+    }
+
+    public static function validateArrayStrict($data, callable $filter=null) {
+        if ( is_array($data) === false ) return false;
+        if ( self::validateStruct($data) === true && array() !== $data  ) return false;
+        return self::applyFilter($data, $filter);
+    }
+
+    public static function validateStruct($data, callable $filter=null) {
+        if ( is_array($data) === false && is_object($data) === false ) return false;
+        $array = (array) $data;
+        $valid = array_keys($array) !== range(0, count($array) - 1);
+        return $valid === false ? false : self::applyFilter($data, $filter);
+    }
+
+    public static function validateDatetimeIso8601($data, callable $filter=null) {
+        if ( DateTime::createFromFormat(DateTime::ATOM, $data) === false ) return false;
+        return self::applyFilter($data, $filter);
+    }
+
+    private static function applyFilter($data, callable $filter=null) {
+        return $filter === null ? true : (bool) call_user_func($filter, $data);
     }
 
 }
