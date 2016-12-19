@@ -32,19 +32,22 @@ class DataValidation {
     const FLOAT = 'FLOAT';
     const JSON = 'JSON';
     const SERIALIZED = 'SERIALIZED';
-    const ARRAYSTRICT = 'ARRAYSTRICT';
+    const ARRAYSTRICT = 'ARRAY';
     const STRUCT = 'STRUCT';
     const DATETIMEISO8601 = 'DATETIMEISO8601';
 
     private static $supported_types = array (
         "STRING" => 'self::validateString',
         "BOOL" => 'self::validateBoolean',
+        "BOOLEAN" => 'self::validateBoolean',
         "INT" => 'self::validateInteger',
+        "INTEGER" => 'self::validateInteger',
         "NUMBER" => 'self::validateNumeric',
         "FLOAT" => 'self::validateFloat',
+        "DOUBLE" => 'self::validateFloat',
         "JSON" => 'self::validateJson',
         "SERIALIZED" => 'self::validateSerialized',
-        "ARRAYSTRICT" => 'self::validateArrayStrict',
+        "ARRAY" => 'self::validateArray',
         "STRUCT" => 'self::validateStruct',
         "DATETIMEISO8601" => 'self::validateDatetimeIso8601'
     );
@@ -98,7 +101,7 @@ class DataValidation {
         return self::applyFilter($data, $filter);
     }
 
-    public static function validateArrayStrict($data, callable $filter=null) {
+    public static function validateArray($data, callable $filter=null) {
         if ( is_array($data) === false ) return false;
         if ( self::validateStruct($data) === true && array() !== $data  ) return false;
         return self::applyFilter($data, $filter);
