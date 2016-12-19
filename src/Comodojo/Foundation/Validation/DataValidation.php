@@ -35,6 +35,8 @@ class DataValidation {
     const ARRAYSTRICT = 'ARRAY';
     const STRUCT = 'STRUCT';
     const DATETIMEISO8601 = 'DATETIMEISO8601';
+    const BASE64 = 'BASE64';
+    const NULLVALUE = 'NULL';
 
     private static $supported_types = array (
         "STRING" => 'self::validateString',
@@ -49,7 +51,9 @@ class DataValidation {
         "SERIALIZED" => 'self::validateSerialized',
         "ARRAY" => 'self::validateArray',
         "STRUCT" => 'self::validateStruct',
-        "DATETIMEISO8601" => 'self::validateDatetimeIso8601'
+        "DATETIMEISO8601" => 'self::validateDatetimeIso8601',
+        "BASE64" => 'self::validateBase64',
+        "NULL" => 'self::validateNull'
     );
 
     public static function validate($data, $type, callable $filter=null) {
@@ -117,6 +121,16 @@ class DataValidation {
     public static function validateDatetimeIso8601($data, callable $filter=null) {
         if ( DateTime::createFromFormat(DateTime::ATOM, $data) === false ) return false;
         return self::applyFilter($data, $filter);
+    }
+
+    public static function validateBase64($data, callable $filter=null) {
+        return base64_encode(base64_decode($data, true)) === $data ?
+            self::applyFilter($data, $filter)
+            : false;
+    }
+
+    public static function validateNull($data, callable $filter=null) {
+        return is_null($data);
     }
 
     private static function applyFilter($data, callable $filter=null) {

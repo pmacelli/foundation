@@ -72,8 +72,9 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
             ['a:3:{s:4:"this";s:2:"is";s:1:"a";s:4:"test";i:0;b:1;}',Validator::SERIALIZED],
             [[0=>"this",1=>"is",2=>"a",3=>"test"],Validator::ARRAYSTRICT],
             [["this"=>"is","a"=>"test"],Validator::STRUCT],
-            ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601]
-
+            ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601],
+            [base64_encode("this is a test"),Validator::BASE64],
+            [null,Validator::NULLVALUE]
         ];
     }
 
@@ -93,7 +94,9 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
             ['{s:4:"this";s:2:"is";s:1:"a";s:4:"test";i:0;b:1;}',Validator::SERIALIZED],
             [["this"=>"is","a","test",true],Validator::ARRAYSTRICT],
             [["this","is","a","test",true],Validator::STRUCT],
-            ['2016-12-19T11:20',Validator::DATETIMEISO8601]
+            ['2016-12-19T11:20',Validator::DATETIMEISO8601],
+            ["this is a test",Validator::BASE64],
+            [0,Validator::NULLVALUE]
         ];
     }
 
