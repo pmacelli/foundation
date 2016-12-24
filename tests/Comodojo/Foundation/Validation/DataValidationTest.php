@@ -1,4 +1,4 @@
-<?php
+<?php namespace Comodojo\Foundation\Tests\Validation;
 
 use \Comodojo\Foundation\Validation\DataValidation as Validator;
 
@@ -136,8 +136,8 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
                 return $data['this'] == 'is';
             }],
             ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601, function($data) {
-                $dc = new DateTime('now');
-                return DateTime::createFromFormat(DateTime::ATOM, $data)->diff($dc)->format('%s') > 0;
+                $dc = new \DateTime('now');
+                return \DateTime::createFromFormat(\DateTime::ATOM, $data)->diff($dc)->format('%s') > 0;
             }]
         ];
     }
@@ -178,8 +178,8 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
                 return $data['this'] == 'a';
             }],
             ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601, function($data) {
-                $dc = new DateTime('now');
-                return DateTime::createFromFormat(DateTime::ATOM, $data)->diff($dc)->format('%s') == 0;
+                $dc = new \DateTime('now');
+                return \DateTime::createFromFormat(\DateTime::ATOM, $data)->diff($dc)->format('%s') == 0;
             }]
         ];
     }

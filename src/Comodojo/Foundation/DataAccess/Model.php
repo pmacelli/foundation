@@ -20,7 +20,7 @@ use \BadMethodCallException;
  */
 
 
-class Model {
+abstract class Model {
 
     const READWRITE = 1;
 
@@ -30,7 +30,7 @@ class Model {
 
     protected $mode;
 
-    protected $data = array();
+    protected $data = [];
 
     public function __get($name) {
 
@@ -56,7 +56,9 @@ class Model {
 
     public function __unset($name) {
 
-        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot delete items in readonly data mode");
+        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot unset items in readonly data mode");
+
+        if ( $this->mode === self::PROTECTDATA ) throw new BadMethodCallException("Cannot unset items in protected data mode");
 
         if ( isset($this->$name) ) unset($this->data[$name]);
 
