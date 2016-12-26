@@ -74,7 +74,8 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
             [["this"=>"is","a"=>"test"],Validator::STRUCT],
             ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601],
             [base64_encode("this is a test"),Validator::BASE64],
-            [null,Validator::NULLVALUE]
+            [null,Validator::NULLVALUE],
+            ['1482772894',Validator::TIMESTAMP]
         ];
     }
 
@@ -96,7 +97,8 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
             [["this","is","a","test",true],Validator::STRUCT],
             ['2016-12-19T11:20',Validator::DATETIMEISO8601],
             ["this is a test",Validator::BASE64],
-            [0,Validator::NULLVALUE]
+            [0,Validator::NULLVALUE],
+            ['14827FC894',Validator::TIMESTAMP]
         ];
     }
 
@@ -138,6 +140,10 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
             ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601, function($data) {
                 $dc = new \DateTime('now');
                 return \DateTime::createFromFormat(\DateTime::ATOM, $data)->diff($dc)->format('%s') > 0;
+            }],
+            ['1482772894',Validator::TIMESTAMP, function($data) {
+                $dc = new \DateTime('now');
+                return \DateTime::createFromFormat('U', $data)->diff($dc)->format('%s') > 0;
             }]
         ];
     }
@@ -180,6 +186,10 @@ class DataValidationTest extends \PHPUnit_Framework_TestCase {
             ['2016-12-19T11:20:26+01:00',Validator::DATETIMEISO8601, function($data) {
                 $dc = new \DateTime('now');
                 return \DateTime::createFromFormat(\DateTime::ATOM, $data)->diff($dc)->format('%s') == 0;
+            }],
+            ['1482772894',Validator::TIMESTAMP, function($data) {
+                $dc = new \DateTime('now');
+                return \DateTime::createFromFormat('U', $data)->diff($dc)->format('%s') == 0;
             }]
         ];
     }

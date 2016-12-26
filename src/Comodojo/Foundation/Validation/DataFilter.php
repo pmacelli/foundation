@@ -33,4 +33,16 @@ class DataFilter {
 
     }
 
+    public static function filterPort($port, $default = 80) {
+
+        return filter_var($port, FILTER_VALIDATE_INT, array(
+            "options" => array(
+                "min_range" => 1,
+                "max_range" => 65535,
+                "default" => $default
+            ))
+        );
+        
+    }
+
 }

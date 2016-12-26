@@ -37,6 +37,7 @@ class DataValidation {
     const DATETIMEISO8601 = 'DATETIMEISO8601';
     const BASE64 = 'BASE64';
     const NULLVALUE = 'NULL';
+    const TIMESTAMP = 'TIMESTAMP';
 
     private static $supported_types = array (
         "STRING" => 'self::validateString',
@@ -53,7 +54,8 @@ class DataValidation {
         "STRUCT" => 'self::validateStruct',
         "DATETIMEISO8601" => 'self::validateDatetimeIso8601',
         "BASE64" => 'self::validateBase64',
-        "NULL" => 'self::validateNull'
+        "NULL" => 'self::validateNull',
+        "TIMESTAMP" => 'self::validateTimestamp'
     );
 
     public static function validate($data, $type, callable $filter=null) {
@@ -131,6 +133,16 @@ class DataValidation {
 
     public static function validateNull($data, callable $filter=null) {
         return is_null($data);
+    }
+
+    public static function validateTimestamp($data, callable $filter=null) {
+
+        return (
+            (string) (int) $data === $data
+            && ($data <= PHP_INT_MAX)
+            && ($data >= ~PHP_INT_MAX)
+        ) ? self::applyFilter($data, $filter) : false;
+
     }
 
     private static function applyFilter($data, callable $filter=null) {

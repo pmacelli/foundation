@@ -1,5 +1,7 @@
 <?php namespace Comodojo\Foundation\Timing;
 
+use \InvalidArgumentException;
+
 /**
  * @package     Comodojo Foundation
  * @author      Marco Giovinazzi <marco.giovinazzi@comodojo.org>
@@ -16,23 +18,27 @@
  * THE SOFTWARE.
  */
 
-trait TimestampTrait {
+trait TimingTrait {
 
-    protected $timestamp;
+    protected $timing;
 
-    public function getTimestamp() {
+    public function setTiming($time = null) {
 
-        return $this->timestamp;
+        if ( empty($time) ) {
+            $this->timing = microtime(true);
+            return $this;
+        } else if ( is_float($time) === false ) {
+            throw new InvalidArgumentException("Time reference should be a float number");
+        } else {
+            $this->timing = $time;
+            return $this;
+        }
 
     }
 
-    public function setTimestamp($time = null) {
+    public function getTiming() {
 
-        if ( is_float($time) ) $this->timestamp = $time;
-
-        else $this->timestamp = microtime(true);
-
-        return true;
+        return $this->timing;
 
     }
 
