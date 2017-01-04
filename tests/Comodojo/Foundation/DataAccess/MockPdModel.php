@@ -18,7 +18,6 @@ use \Comodojo\Foundation\DataAccess\Model;
  * THE SOFTWARE.
  */
 
-
 class MockPdModel extends Model {
 
     protected $mode = self::PROTECTDATA;
@@ -27,5 +26,9 @@ class MockPdModel extends Model {
         "question" => "Ultimate Question of Life, The Universe, and Everything",
         "answer" => 42
     ];
+
+    public function mockSetRaw($name, $value) {
+        return $this->setRaw($name, $value);
+    }
 
 }

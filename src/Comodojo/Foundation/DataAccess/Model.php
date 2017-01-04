@@ -98,4 +98,8 @@ abstract class Model {
 
     }
 
+    protected function setRaw($name, $value) {
+        $this->data[$name] = $value;
+    }
+
 }

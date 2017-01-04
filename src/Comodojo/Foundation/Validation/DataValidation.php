@@ -138,7 +138,7 @@ class DataValidation {
     public static function validateTimestamp($data, callable $filter=null) {
 
         return (
-            (string) (int) $data === $data
+            (string) (int) $data === (string) $data
             && ($data <= PHP_INT_MAX)
             && ($data >= ~PHP_INT_MAX)
         ) ? self::applyFilter($data, $filter) : false;

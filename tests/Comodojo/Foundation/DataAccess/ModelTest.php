@@ -41,6 +41,18 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testPdModelSetRaw() {
+
+        $model = new MockPdModel();
+        $marvin = "Sad Robot";
+
+        $model->mockSetRaw('marvin', $marvin);
+
+        $this->assertTrue(isset($model->marvin));
+        $this->assertEquals($marvin, $model->marvin);
+
+    }
+
     /**
      * @expectedException \BadMethodCallException
      */
@@ -102,6 +114,37 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $model = new MockRoModel();
 
         unset($model->answer);
+
+    }
+
+    public function testRoModelSetRaw() {
+
+        $model = new MockRoModel();
+        $marvin = "Sad Robot";
+
+        $model->mockSetRaw('marvin', $marvin);
+
+        $this->assertTrue(isset($model->marvin));
+        $this->assertEquals($marvin, $model->marvin);
+
+    }
+
+    public function testRwModel() {
+
+        $model = new MockRwModel();
+
+        $this->assertTrue(isset($model->question));
+
+        $model->question = $this->question;
+        $model->answer = $this->answer;
+        $model->wrong = $this->wrong_answer;
+
+        $this->assertEquals($this->question, $model->question);
+        $this->assertEquals($this->answer, $model->answer);
+        $this->assertEquals($this->wrong_answer, $model->wrong);
+
+        unset($model->question);
+        $this->assertFalse(isset($model->question));
 
     }
 

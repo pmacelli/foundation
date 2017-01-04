@@ -16,70 +16,13 @@
  * THE SOFTWARE.
  */
 
-
 class Configuration {
 
-    protected $attributes = array();
+    use ParametersTrait;
 
-    public function __construct( $configuration = array() ) {
+    public function __construct(array $configuration = [] ) {
 
-        $this->attributes = array_merge($this->attributes, $configuration);
-
-    }
-
-    public function get($property = null) {
-
-        if ( is_null($property) ) {
-
-            return $this->attributes;
-
-        } else if (array_key_exists($property, $this->attributes)) {
-
-            $value = $this->attributes[$property];
-
-            // substitution by backreference is cool but hard compute for a large set of values :(
-            //
-            // if ( is_scalar($value) && preg_match_all('/%(.+?)%/', $value, $matches, PREG_SET_ORDER) ) {
-            //
-            //     $substitutions = array();
-            //
-            //     foreach ( $matches as $match ) {
-            //
-            //         $backreference = $match[1];
-            //
-            //         if ( $backreference != $property && !isset($substitutions['/%'.$backreference.'%/']) ) {
-            //
-            //             $substitutions['/%'.$backreference.'%/'] = $this->get($backreference);
-            //
-            //         }
-            //
-            //     }
-            //
-            //     $value = preg_replace(array_keys($substitutions), array_values($substitutions), $value);
-            //
-            // }
-
-            return $value;
-
-        } else {
-
-            return null;
-
-        }
-
-    }
-
-    public function set($property, $value) {
-
-        $this->attributes[$property] = $value;
-
-        return $this;
-
-    }
-
-    public function has($property) {
-
-        return isset($this->attributes[$property]);
+        $this->parameters = array_merge($this->parameters, $configuration);
 
     }
 
@@ -89,31 +32,9 @@ class Configuration {
 
     }
 
-    public function delete($property = null) {
+    public function merge(array $properties) {
 
-        if ( is_null($property) ) {
-
-            $this->attributes = array();
-
-            return true;
-
-        } else if ( $this->isDefined($property) ) {
-
-            unset($this->attributes[$property]);
-
-            return true;
-
-        } else {
-
-            return false;
-
-        }
-
-    }
-
-    public function merge($properties) {
-
-        $this->attributes = array_replace($this->attributes, $properties);
+        $this->parameters = array_replace($this->parameters, $properties);
 
         return $this;
 

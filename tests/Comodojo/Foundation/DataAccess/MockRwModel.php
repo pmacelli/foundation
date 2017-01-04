@@ -18,7 +18,6 @@ use \Comodojo\Foundation\DataAccess\Model;
  * THE SOFTWARE.
  */
 
-
 class MockRwModel extends Model {
 
     protected $mode = self::READWRITE;
