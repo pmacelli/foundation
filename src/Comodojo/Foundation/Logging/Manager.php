@@ -26,9 +26,23 @@ class Manager {
 
     private $logger;
 
+    private $base_path;
+
     public function __construct($name = null) {
 
         $this->logger = new Logger(empty($name) ? self::DEFAULT_LOGGER_NAME : $name);
+
+    }
+
+    public function setBasePath($path) {
+
+        $this->base_path = $path;
+
+    }
+
+    public function getBasePath() {
+
+        return $this->base_path;
 
     }
 
@@ -64,13 +78,19 @@ class Manager {
 
     public static function createFromConfiguration(Configuration $configuration) {
 
+        $base_path = $configuration->get('base-path');
+
         $log = $configuration->get('log');
 
         $name = empty($log['name']) ? null : $log['name'];
 
+        $enable = (empty($log['enable']) || $log['enable'] !== false) ? true : false;
+
         $providers = $log['providers'];
 
         $manager = new Manager($name);
+
+        $manager->setBasePath($base_path);
 
         return $manager->init($enable, $providers);
 
@@ -91,7 +111,7 @@ class Manager {
         switch ( $parameters['type'] ) {
 
             case 'StreamHandler':
-                $handler = ProviderBuilder::StreamHandler($provider, $parameters);
+                $handler = ProviderBuilder::StreamHandler($provider, $this->base_path, $parameters);
                 break;
 
             case 'SyslogHandler':

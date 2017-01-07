@@ -1,5 +1,6 @@
 <?php namespace Comodojo\Foundation\Timing;
 
+use \DateTime;
 use \InvalidArgumentException;
 
 /**
@@ -39,6 +40,12 @@ trait TimingTrait {
     public function getTiming() {
 
         return $this->timing;
+
+    }
+
+    public function getTime() {
+
+        return DateTime::createFromFormat('U.u', $this->timing);
 
     }
 

@@ -3,3 +3,5 @@ composer.lock
 coverage.clover
 vendor/
 build/
+tests/root/log/*
+!tests/root/log/.placeholder
