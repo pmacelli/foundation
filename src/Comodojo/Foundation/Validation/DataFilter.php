@@ -35,14 +35,18 @@ class DataFilter {
 
     public static function filterPort($port, $default = 80) {
 
-        return filter_var($port, FILTER_VALIDATE_INT, array(
-            "options" => array(
-                "min_range" => 1,
-                "max_range" => 65535,
-                "default" => $default
-            ))
-        );
-        
+        return self::filterInteger($port, 1, 65535, $default);
+
+    }
+
+    public static function filterBoolean($bool, $default = false) {
+
+        return filter_var($bool, FILTER_VALIDATE_BOOLEAN, array(
+            'options' => array(
+                'default' => $default
+            )
+        ));
+
     }
 
 }

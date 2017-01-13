@@ -20,4 +20,12 @@ class DataFilterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testFilterBoolean() {
+
+        $this->assertTrue(Filter::filterBoolean(true));
+        $this->assertTrue(Filter::filterBoolean(10, true));
+        $this->assertFalse(Filter::filterBoolean(10));
+
+    }
+
 }
