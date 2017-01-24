@@ -21,7 +21,7 @@ use \InvalidArgumentException;
 
 class DataFilter {
 
-    public static function filterInteger($int, $min=PHP_INT_MIN, $max=PHP_INT_MAX, $default=0) {
+    public static function filterInteger($int, $min=~PHP_INT_MAX, $max=PHP_INT_MAX, $default=0) {
 
         return filter_var($int, FILTER_VALIDATE_INT, array(
             'options' => array(
