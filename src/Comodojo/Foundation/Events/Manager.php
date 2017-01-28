@@ -57,6 +57,27 @@ class Manager extends Emitter {
 
     }
 
+    public function load(array $events) {
+
+        foreach($events as $event) {
+
+            if ( !isset($event['class']) || !isset($event["event"]) ) {
+
+                $this->logger->error("Invalid event definition", $event);
+                continue;
+
+            }
+
+            $priority = isset($event['priority']) ? $event['priority'] : 0;
+            $onetime = isset($event['onetime']) ? $event['onetime'] : false;
+
+            if ( $onetime ) $this->subscribeOnce($event['event'], $event['class'], $priority);
+            else $this->subscribe($event['event'], $event['class'], $priority);
+
+        }
+
+    }
+
     public static function create(LoggerInterface $logger = null) {
 
         return new Manager($logger);
