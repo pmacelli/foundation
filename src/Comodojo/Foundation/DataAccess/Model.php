@@ -46,9 +46,9 @@ abstract class Model {
 
     public function __set($name, $value) {
 
-        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot set items in readonly data mode");
+        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot set item $name in readonly data mode");
 
-        if ( $this->mode === self::PROTECTDATA && !array_key_exists($name, $this->data) ) throw new UnexpectedValueException("Cannot add items in protected data mode");
+        if ( $this->mode === self::PROTECTDATA && !array_key_exists($name, $this->data) ) throw new UnexpectedValueException("Cannot add item $name in protected data mode");
 
         $this->data[$name] = $value;
 
@@ -56,9 +56,9 @@ abstract class Model {
 
     public function __unset($name) {
 
-        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot unset items in readonly data mode");
+        if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot unset item $name in readonly data mode");
 
-        if ( $this->mode === self::PROTECTDATA ) throw new BadMethodCallException("Cannot unset items in protected data mode");
+        if ( $this->mode === self::PROTECTDATA ) throw new BadMethodCallException("Cannot unset item $name in protected data mode");
 
         if ( isset($this->$name) ) unset($this->data[$name]);
 
@@ -90,7 +90,9 @@ abstract class Model {
 
         if ( $this->mode === self::READONLY ) throw new BadMethodCallException("Cannot import items in readonly data mode");
 
-        if ( $this->mode === self::PROTECTDATA && !empty(array_diff_key($this->data, $data)) ) throw new UnexpectedValueException("Cannot import new items in protected data mode");
+        $diff = array_diff_key($this->data, $data);
+
+        if ( $this->mode === self::PROTECTDATA && !empty($diff) ) throw new UnexpectedValueException("Cannot import new items [".implode(", ", $diff)."] in protected data mode");
 
         $this->data = $data;
 

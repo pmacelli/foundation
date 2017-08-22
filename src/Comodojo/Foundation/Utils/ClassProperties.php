@@ -29,13 +29,13 @@ class ClassProperties extends Model implements Iterator, Countable {
 
     protected $mode = self::PROTECTDATA;
 
-    public function __construct($properties = array()) {
+    public function __construct($properties = []) {
 
         $this->data = $properties;
 
     }
 
-    public static function create($properties = array()) {
+    public static function create($properties = []) {
 
         $classProperties = new ClassProperties($properties);
 
