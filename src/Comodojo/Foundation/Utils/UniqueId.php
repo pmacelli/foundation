@@ -1,5 +1,7 @@
 <?php namespace Comodojo\Foundation\Utils;
 
+use \InvalidArgumentException;
+
 /**
  * @package     Comodojo Foundation
  * @author      Marco Giovinazzi <marco.giovinazzi@comodojo.org>
@@ -18,19 +20,31 @@
 
 class UniqueId {
 
+    // public static function generateCustom(string $prefix, int $length=128): string {
+    public static function generateCustom($prefix, $length=128) {
+
+        if ( $length <= (strlen($prefix)+1) ) {
+            throw new InvalidArgumentException("Uid length cannot be smaller than prefix length +1");
+
+        }
+
+        return "$prefix-".self::generate($length-(strlen($prefix)+1));
+
+    }
+
     public static function generate($length=128) {
 
-        if ($length == 128) {
-
-            return self::getUid();
-
-        } else if ($length < 128) {
+        if ($length < 32) {
 
             return substr(self::getUid(), 0, $length);
 
-        } else {
+        } else if ($length == 32) {
 
-            $numString = (int)($length/128) + 1;
+            return self::getUid();
+
+        }  else {
+
+            $numString = (int)($length/32) + 1;
             $randNum = "";
             for ($i = 0; $i < $numString; $i++) $randNum .= self::getUid();
 
