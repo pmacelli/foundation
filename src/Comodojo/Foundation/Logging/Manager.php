@@ -76,17 +76,25 @@ class Manager {
 
     }
 
-    public static function createFromConfiguration(Configuration $configuration) {
+    public static function createFromConfiguration(Configuration $configuration, $stanza = null) {
 
         $base_path = $configuration->get('base-path');
 
-        $log = $configuration->get('log');
+        $log = null;
+
+        if ( $stanza !== null ) {
+            $log = $configuration->get($stanza);
+        }
+
+        if ( $log === null ) {
+            $log = $configuration->get('log');
+        }
 
         $name = empty($log['name']) ? null : $log['name'];
 
         $enable = (empty($log['enable']) || $log['enable'] !== false) ? true : false;
 
-        $providers = $log['providers'];
+        $providers = empty($log['providers']) ? [] : $log['providers'];
 
         $manager = new Manager($name);
 
