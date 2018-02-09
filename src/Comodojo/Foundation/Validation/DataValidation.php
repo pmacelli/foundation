@@ -2,7 +2,6 @@
 
 use \DateTime;
 use \UnexpectedValueException;
-use \InvalidArgumentException;
 
 /**
  * @package     Comodojo Foundation
@@ -58,6 +57,15 @@ class DataValidation {
         "TIMESTAMP" => 'self::validateTimestamp'
     );
 
+    /**
+     * Generic validator.
+     *
+     * @param mixed $data Data to validate
+     * @param string $type Type (one of self::$supported_types)
+     * @param callable $filter Custom filter
+     * @return bool
+     * @throws UnexpectedValueException
+     */
     public static function validate($data, $type, callable $filter=null) {
 
         $type = strtoupper($type);
@@ -70,49 +78,112 @@ class DataValidation {
 
     }
 
+    /**
+     * String validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateString($data, callable $filter=null) {
         if ( is_string($data) === false ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Bool validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateBoolean($data, callable $filter=null) {
         if ( is_bool($data) === false ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Int validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateInteger($data, callable $filter=null) {
         if ( is_int($data) === false ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Numeric validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateNumeric($data, callable $filter=null) {
         if ( is_numeric($data) === false ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Float validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateFloat($data, callable $filter=null) {
         if ( is_float($data) === false ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Json validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateJson($data, callable $filter=null) {
         $decoded = json_decode($data);
         if ( is_null($decoded) ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Serialized values validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateSerialized($data, callable $filter=null) {
         $decoded = @unserialize($data);
         if ( $decoded === false && $data != @serialize(false) ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Array (strict) validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateArray($data, callable $filter=null) {
         if ( is_array($data) === false ) return false;
         if ( self::validateStruct($data) === true && array() !== $data  ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Struct (strict) validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateStruct($data, callable $filter=null) {
         if ( is_array($data) === false && is_object($data) === false ) return false;
         $array = (array) $data;
@@ -120,21 +191,49 @@ class DataValidation {
         return $valid === false ? false : self::applyFilter($data, $filter);
     }
 
+    /**
+     * Iso8601-datetime validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateDatetimeIso8601($data, callable $filter=null) {
         if ( DateTime::createFromFormat(DateTime::ATOM, $data) === false ) return false;
         return self::applyFilter($data, $filter);
     }
 
+    /**
+     * Base64 validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateBase64($data, callable $filter=null) {
         return base64_encode(base64_decode($data, true)) === $data ?
             self::applyFilter($data, $filter)
             : false;
     }
 
+    /**
+     * Null value validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateNull($data, callable $filter=null) {
         return is_null($data);
     }
 
+    /**
+     * Timestamp (epoch) validator.
+     *
+     * @param mixed $data Data to validate
+     * @param callable $filter Custom filter
+     * @return bool
+     */
     public static function validateTimestamp($data, callable $filter=null) {
 
         return (
@@ -145,6 +244,11 @@ class DataValidation {
 
     }
 
+    /**
+     * @param mixed $data
+     * @param callable $filter
+     * @return bool
+     */
     private static function applyFilter($data, callable $filter=null) {
         return $filter === null ? true : (bool) call_user_func($filter, $data);
     }

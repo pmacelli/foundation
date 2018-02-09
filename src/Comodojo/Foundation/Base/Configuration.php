@@ -18,7 +18,7 @@
 
 class Configuration {
 
-    use ParametersTrait;
+    use ConfigurationParametersTrait;
 
     public function __construct(array $configuration = [] ) {
 

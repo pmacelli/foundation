@@ -6,13 +6,19 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     protected function setUp() {
 
-        $test_values = array(
+        $test_values = [
             "foo" => "boo",
-            "a" => array("a" => "lorem", "b" => "ipsum"),
+            "a" => [
+                "a" => "lorem",
+                "b" => "ipsum",
+                "c" => [
+                    "dolor" => "sit"
+                ]
+            ],
             "b" => false,
             "c" => 42,
             "d" => (object) array("a" => "lorem", "b" => "ipsum"),
-        );
+        ];
 
         $this->config = new Configuration( $test_values );
 
@@ -84,6 +90,29 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testSelectiveCrud() {
 
+        $this->config->set("a.c.amet", true);
+
+        $this->assertTrue($this->config->get("a.c.amet"));
+
+        $ac_value = $this->config->get("a.c");
+
+        $this->assertInternalType('array', $ac_value);
+        $this->assertArrayHasKey('dolor', $ac_value);
+        $this->assertArrayHasKey('amet', $ac_value);
+        $this->assertEquals('sit', $ac_value['dolor']);
+
+        $this->config->delete("a.c.amet");
+
+        $ac_value = $this->config->get("a.c");
+
+        $this->assertInternalType('array', $ac_value);
+        $this->assertArrayHasKey('dolor', $ac_value);
+        $this->assertArrayNotHasKey('amet', $ac_value);
+
+        $this->assertFalse($this->config->has("a.c.amet"));
+
+    }
 
 }

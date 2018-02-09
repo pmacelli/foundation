@@ -18,6 +18,20 @@
 
 class ArrayOps {
 
+    /**
+     * Perform a circular diff between two arrays using keys.
+     *
+     * This method returns an array containing:
+     * [
+     *  [keys in $left array but not in $right],
+     *  [keys in both %left and $right],
+     *  [keys in $right but not in $left],
+     * ]
+     *
+     * @param array $left
+     * @param array $right
+     * @return array
+     */
     public static function circularDiffKeys(array $left, array $right) {
 
         return [
@@ -31,12 +45,26 @@ class ArrayOps {
 
     }
 
+    /**
+     * Filter an array by an array of keys
+     *
+     * @param array $array_of_keys
+     * @param array $array_to_filter
+     * @return array
+     */
     public static function filterByKeys(array $array_of_keys, array $array_to_filter) {
 
         return array_intersect_key($array_to_filter, array_flip($array_of_keys));
 
     }
 
+    /**
+     * Replace items only if relative keys are actually defined in source array
+     *
+     * @param array $source
+     * @param array $replace
+     * @return array
+     */
     public static function replaceStrict(array $source, array ...$replace) {
 
         $replacements = [];
