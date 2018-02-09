@@ -18,6 +18,8 @@ Usage example:
 
 .. code-block:: php
 
+    <?php
+
     $https = 443;
     $invalid_port = 10000000;
     $default = 8080;
@@ -58,6 +60,8 @@ Validation can be invoked via ``validate`` methods, that accepts input data, dat
 Usage example:
 
 .. code-block:: php
+
+    <?php
 
     $http = 80;
     $https = 443;

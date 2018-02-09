@@ -20,8 +20,20 @@ use \InvalidArgumentException;
 
 trait ConfigurationParametersTrait {
 
+    /**
+     * @var array
+     */
     protected $parameters = [];
 
+    /**
+     * Get parameter (property) from stack
+     *
+     * This method supports nesting of properties using dot notation
+     *
+     * @example Configuration::get("authentication.ldap.server")
+     * @param string $parameter
+     * @return mixed|null
+     */
     public function get($parameter=null) {
 
         if ( is_null($parameter) ) return $this->parameters;
@@ -30,6 +42,15 @@ trait ConfigurationParametersTrait {
 
     }
 
+    /**
+     * Set a parameter (property)
+     *
+     * This method supports nesting of properties using dot notation
+     *
+     * @example Configuration::set("authentication.ldap.server", "192.168.1.1")
+     * @param string $parameter
+     * @return self
+     */
     public function set($parameter, $value) {
 
         $parts = self::splitParts($parameter);
@@ -42,12 +63,30 @@ trait ConfigurationParametersTrait {
 
     }
 
+    /**
+     * Check if parameter (property) is defined in current stack
+     *
+     * This method supports nesting of properties using dot notation
+     *
+     * @example Configuration::has("authentication.ldap.server")
+     * @param string $parameter
+     * @return bool
+     */
     public function has($parameter) {
 
         return is_null($this->getFromParts(self::splitParts($parameter))) ? false : true;
 
     }
 
+    /**
+     * Remove (delete) parameter (property) from stack
+     *
+     * This method supports nesting of properties using dot notation
+     *
+     * @example Configuration::delete("authentication.ldap.server")
+     * @param string $parameter
+     * @return bool
+     */
     public function delete($parameter = null) {
 
         if ( is_null($parameter) ) {
@@ -84,20 +123,6 @@ trait ConfigurationParametersTrait {
         $data = $reference;
 
         return $data;
-        //
-        // $data = $this->parameters;
-        //
-        // foreach ($parts as $part) {
-        //
-        //     if ( isset($data[$part]) ) {
-        //         $data = $data[$part];
-        //     } else {
-        //         return null;
-        //     }
-        //
-        // }
-        //
-        // return $data;
 
     }
 
@@ -105,13 +130,19 @@ trait ConfigurationParametersTrait {
 
         $reference = &$this->parameters;
 
-        foreach ($parts as $part) {
+        $plength = count($parts);
 
-            if ( !isset($reference[$part]) ) {
-                $reference[$part] = [];
+        for ($i=0; $i < $plength; $i++) {
+
+            if ( !isset($reference[$parts[$i]]) ) {
+                $reference[$parts[$i]] = [];
             }
 
-            $reference = &$reference[$part];
+            if ( ($i < $plength-1) && !is_array($reference[$parts[$i]]) ) {
+                $reference[$parts[$i]] = [$reference[$parts[$i]]];
+            }
+
+            $reference = &$reference[$parts[$i]];
 
         }
 

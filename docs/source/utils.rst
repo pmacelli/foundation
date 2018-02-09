@@ -15,6 +15,8 @@ Usage:
 
 .. code-block:: php
 
+    <?php
+
     $left = [
         "ford" => "perfect",
         "marvin" => "android",
@@ -61,6 +63,8 @@ Usage:
 
 .. code-block:: php
 
+    <?php
+
     $stack = [
         "ford" => "perfect",
         "marvin" => "android",
@@ -94,6 +98,8 @@ Usage:
 
 .. code-block:: php
 
+    <?php
+
     $stack = [
         "ford" => "perfect",
         "marvin" => "android",
@@ -119,3 +125,30 @@ It returns:
       'arthur' =>
       string(4) "dent"
     }
+
+Uid generator
+-------------
+
+Class ``\Comodojo\Foundation\Utils\UniqueId`` provides 2 different methods to generate an UID (string).
+
+- ``UniqueId::generate`` generate a random uid, variable length (default 32)
+
+- ``UniqueId::generateCustom`` generate a random uid that includes provided prefix, , variable length (default 32)
+
+Usage example:
+
+.. code-block:: php
+
+    <?php
+
+    var_dump(\Comodojo\Foundation\Utils\UniqueId::generate(40));
+
+    var_dump(\Comodojo\Foundation\Utils\UniqueId::generateCustom('ford', 32));
+
+It returns:
+
+.. code::
+
+    string(40) "0c7687119b3772a69691b838303f33bdb2c00bcd"
+
+    string(32) "ford-47ee5e94f6550d811ab1d007f6f"

@@ -20,8 +20,17 @@ use \InvalidArgumentException;
 
 class UniqueId {
 
-    // public static function generateCustom(string $prefix, int $length=128): string {
+    /**
+     * Generate a custom uid starting from a prefix
+     *
+     * The result uid format will be $string-[random]
+     *
+     * @param string $prefix
+     * @param int $length
+     * @return string
+     */
     public static function generateCustom($prefix, $length=128) {
+    // public static function generateCustom(string $prefix, int $length=128): string {
 
         if ( $length <= (strlen($prefix)+1) ) {
             throw new InvalidArgumentException("Uid length cannot be smaller than prefix length +1");
@@ -32,6 +41,12 @@ class UniqueId {
 
     }
 
+    /**
+     * Generate an uid
+     *
+     * @param int $length
+     * @return string
+     */
     public static function generate($length=128) {
 
         if ($length < 32) {
@@ -54,6 +69,12 @@ class UniqueId {
 
     }
 
+    /**
+     * Generate an uid (128 bit / 32 char random)
+     *
+     * @param int $length
+     * @return string
+     */
     protected static function getUid() {
 
         return md5(uniqid(rand(), true), 0);

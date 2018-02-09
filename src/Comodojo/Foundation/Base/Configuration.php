@@ -20,23 +20,50 @@ class Configuration {
 
     use ConfigurationParametersTrait;
 
-    public function __construct(array $configuration = [] ) {
+    /**
+     * Create a configuration object from array of values
+     *
+     * @param array $configuration
+     * @return self
+     */
+    public function __construct(array $configuration = []) {
 
         $this->parameters = array_merge($this->parameters, $configuration);
 
     }
 
+    /**
+     * Check if a property is defined
+     *
+     * @deprecated
+     * @see Configuration::has()
+     *
+     * @param string $property
+     * @return bool
+     */
     public function isDefined($property) {
 
         return $this->has($property);
 
     }
 
+    /**
+     * Merge a bundle of properties into actual configuration model
+     *
+     * @param array $properties
+     * @return self
+     */
     public function merge(array $properties) {
 
         $this->parameters = array_replace($this->parameters, $properties);
 
         return $this;
+
+    }
+
+    public static function create(array $configuration = []) {
+
+        return new Configuration($configuration);
 
     }
 

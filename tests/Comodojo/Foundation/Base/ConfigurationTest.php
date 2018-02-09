@@ -115,4 +115,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testStaticConstructor() {
+
+        $config = Configuration::create(["this"=>"is","a"=>["config", "statement"]]);
+
+        $this->assertInstanceOf('\\Comodojo\\Foundation\\Base\\Configuration', $config);
+        $this->assertEquals("is", $config->get("this"));
+        $this->assertInternalType('array', $config->get("a"));
+
+    }
+
 }

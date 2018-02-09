@@ -18,8 +18,17 @@
 
 trait ParametersTrait {
 
+    /**
+     * @var array
+     */
     protected $parameters = [];
 
+    /**
+     * Get parameter (property) from stack
+     *
+     * @param string $parameter
+     * @return mixed|null
+     */
     public function get($parameter=null) {
 
         if ( is_null($parameter) ) return $this->parameters;
@@ -51,6 +60,12 @@ trait ParametersTrait {
 
     }
 
+    /**
+     * Set a parameter (property)
+     *
+     * @param string $parameter
+     * @return self
+     */
     public function set($parameter, $value) {
 
         $this->parameters[$parameter] = $value;
@@ -59,12 +74,24 @@ trait ParametersTrait {
 
     }
 
+    /**
+     * Check if parameter (property) is defined in current stack
+     *
+     * @param string $parameter
+     * @return bool
+     */
     public function has($parameter) {
 
         return isset($this->parameters[$parameter]);
 
     }
 
+    /**
+     * Remove (delete) parameter (property) from stack
+     *
+     * @param string $parameter
+     * @return bool
+     */
     public function delete($parameter = null) {
 
         if ( is_null($parameter) ) {
