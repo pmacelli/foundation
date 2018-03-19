@@ -1,4 +1,4 @@
-static-config: tests/root/config
+static-config: config
 env-config: envconfig.yml
 routing-table-cache: false
 routing-table-ttl: 86400

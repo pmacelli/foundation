@@ -11,7 +11,9 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase {
         $basepath = realpath(dirname(__FILE__)."/../../../root/");
         $config_file = "$basepath/config/config.yml";
 
-        $this->config = ConfigurationLoader::load($config_file);
+        $this->config = ConfigurationLoader::load($config_file, [
+            'base-path' => $basepath
+        ]);
 
     }
 
