@@ -17,3 +17,4 @@ cache:
         local:
             type: Filesystem
             cache_folder: cache
+mock-version-name: 42 is the new black
