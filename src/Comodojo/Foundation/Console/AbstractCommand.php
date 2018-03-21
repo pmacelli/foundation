@@ -3,6 +3,8 @@
 use \Comodojo\Foundation\Base\Configuration;
 use \Comodojo\Foundation\Base\ConfigurationTrait;
 use \Symfony\Component\Console\Command\Command;
+use \Comodojo\Foundation\Logging\LoggerTrait;
+use \DateTime;
 
 /**
  * @package     Comodojo Foundation
@@ -23,6 +25,21 @@ use \Symfony\Component\Console\Command\Command;
 abstract class AbstractCommand extends Command {
 
     use ConfigurationTrait;
+    use LoggerTrait;
+
+    /**
+     * @var DateTime
+     */
+    protected $start_time;
+
+    public function setStartTime() {
+        $this->start_time = microtime(true);
+    }
+
+    public function getEndTime() {
+        $time = microtime(true);
+        return $time - $this->start_time;
+    }
 
     static public function init(Configuration $configuration) {
 

@@ -3,6 +3,9 @@
 use \Comodojo\Foundation\Base\Configuration;
 use \Comodojo\Foundation\Base\ConfigurationTrait;
 use \Symfony\Component\Console\Application;
+use \Symfony\Component\EventDispatcher\EventDispatcher;
+use \Symfony\Component\Console\ConsoleEvents;
+
 
 /**
  * @package     Comodojo Foundation
@@ -24,6 +27,10 @@ class Processor {
 
     use ConfigurationTrait;
 
+    protected $application_header;
+
+    protected $application_version;
+
     protected $application;
 
     // $commands should be an array of classes
@@ -31,15 +38,21 @@ class Processor {
     public function __construct(
         Configuration $configuration,
         array $commands,
-        $name = null,
-        $version = null
+        $application_header = null,
+        $application_version = null
     ) {
 
-        $this->setApplication(new Application());
+        $events = new EventDispatcher();
+        $application = new Application();
+        $application->setDispatcher($events);
+        $this->setApplication($application);
         $this->setConfiguration($configuration);
 
-        if ( !empty($name) ) $this->application->setName($name);
-        if ( !empty($version) ) $this->application->setVersion($version);
+        $events->addListener(ConsoleEvents::COMMAND, '\Comodojo\Foundation\Console\StartEventListener::listen');
+        $events->addListener(ConsoleEvents::TERMINATE, '\Comodojo\Foundation\Console\StopEventListener::listen');
+
+        if ( !empty($application_header) ) $this->setApplicationHeader($application_header);
+        if ( !empty($application_version) ) $this->application->setVersion($application_version);
 
         foreach ($commands as $command) {
 
@@ -49,6 +62,26 @@ class Processor {
 
         }
 
+    }
+
+    public function setApplicationHeader($header) {
+        $this->application_header = $header;
+        $this->application->setName($header);
+        return $this;
+    }
+
+    public function getApplicationHeader() {
+        return $this->application_header;
+    }
+
+    public function setApplicationVersion($version) {
+        $this->application_version = $version;
+        $this->application->setVersion($version);
+        return $this;
+    }
+
+    public function getApplicationVersion() {
+        return $this->application_version;
     }
 
     public function run() {
@@ -73,11 +106,16 @@ class Processor {
     public static function init(
         Configuration $configuration,
         array $commands,
-        $name = null,
-        $version = null
+        $application_header = null,
+        $application_version = null
     ) {
 
-        return new Processor($configuration, $commands, $name, $version);
+        return new Processor(
+            $configuration,
+            $commands,
+            $application_header,
+            $application_version
+        );
 
     }
 
