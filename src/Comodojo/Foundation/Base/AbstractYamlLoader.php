@@ -23,8 +23,6 @@ use \Exception;
 
 abstract class AbstractYamlLoader {
 
-    abstract public static function load($file, array $attributes = []);
-
     protected static function importData($file) {
 
         if ( file_exists($file) && is_readable($file) ) {
