@@ -30,7 +30,6 @@ class UniqueId {
      * @return string
      */
     public static function generateCustom($prefix, $length=128) {
-    // public static function generateCustom(string $prefix, int $length=128): string {
 
         if ( $length <= (strlen($prefix)+1) ) {
             throw new InvalidArgumentException("Uid length cannot be smaller than prefix length +1");

@@ -1,5 +1,8 @@
 <?php namespace Comodojo\Foundation\Base;
 
+use \Symfony\Component\Yaml\Yaml;
+use \Symfony\Component\Yaml\Exception\ParseException;
+use \Comodojo\Exception\ConfigurationException;
 use \Exception;
 
 /**
@@ -18,35 +21,25 @@ use \Exception;
  * THE SOFTWARE.
  */
 
-class ConfigurationLoader extends AbstractYamlLoader {
+abstract class AbstractYamlLoader {
 
-    public static function load($file, array $attributes = []) {
+    protected static function importData($file) {
 
-        $conf = new Configuration($attributes);
+        if ( file_exists($file) && is_readable($file) ) {
 
-        try {
+            $data = @file_get_contents($file);
 
-            $conf->merge(static::importData($file));
+            if ( $data !== false ) {
 
-            $base = $conf->get('base-path');
-            $static = $conf->get('static-config');
-            $env = $conf->get('env-config');
+               return Yaml::parse($data);
 
-            if ( $env !== null ) {
+           } else {
+               throw new ConfigurationException("Configuration file $file not readable");
+           }
 
-                $env_path = substr($env, 0, 1) === '/' ? $env : "$base/$static/$env";
-
-                $conf->merge(static::importData($env_path));
-
-            }
-
-        } catch (Exception $e) {
-
-            throw $e;
-
+        } else {
+            throw new ConfigurationException("Configuration file $file not found");
         }
-
-        return $conf;
 
     }
 
