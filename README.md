@@ -2,6 +2,8 @@
 
 Foundation classes for the comodojo project.
 
+***This is the development branch, please do not use it in production*** 
+
 ## Requirements
 
 - php >=5.6.0
