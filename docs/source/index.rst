@@ -6,7 +6,7 @@ This package provides foundation modules for comodojo libs and frameworks.
 .. toctree::
    :maxdepth: 2
 
-   configuration
+   base
    dataaccess
    events
    logging
