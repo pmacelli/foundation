@@ -93,14 +93,14 @@ Considering the following example (yaml instead of php array only to increase re
                     type: Filesystem
                     cache_folder: cache
 
-To change the *cache*->*enable* flag:
+To change the *cache->enable* flag:
 
 .. code-block:: php
     :linenos:
 
     $configuration->set("cache.enable", false);
 
-Or to get the actual value of *log*->*providers*->*local*->*type*:
+Or to get the actual value of *log->providers->local->type*:
 
 .. code-block:: php
     :linenos:
