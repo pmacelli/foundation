@@ -23,10 +23,10 @@ class DataFilter {
      *
      * This method is a shortcut to filter_var using FILTER_VALIDATE_INT
      *
-     * @param array $int Int to filter
-     * @param array $min Min value (default to ~PHP_INT_MAX)
-     * @param array $max Max value (default to PHP_INT_MAX)
-     * @param array $default Default value
+     * @param int $int Int to filter
+     * @param int $min Min value (default to ~PHP_INT_MAX)
+     * @param int $max Max value (default to PHP_INT_MAX)
+     * @param int $default Default value
      * @return int
      */
     public static function filterInteger($int, $min=~PHP_INT_MAX, $max=PHP_INT_MAX, $default=0) {
@@ -44,7 +44,7 @@ class DataFilter {
     /**
      * Filter a TCP/UDP port
      *
-     * @param array $port
+     * @param int $port
      * @param array $default
      * @return int
      */
@@ -59,9 +59,9 @@ class DataFilter {
      *
      * This method is a shortcut to filter_var using FILTER_VALIDATE_BOOLEAN
      *
-     * @param array $bool
+     * @param bool $bool
      * @param array $default
-     * @return array
+     * @return bool
      */
     public static function filterBoolean($bool, $default = false) {
 
