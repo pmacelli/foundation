@@ -1,8 +1,9 @@
 <?php namespace Comodojo\Foundation\Tests\Validation;
 
 use \Comodojo\Foundation\Validation\DataValidation as Validator;
+use \PHPUnit\Framework\TestCase;
 
-class DataValidationTest extends \PHPUnit_Framework_TestCase {
+class DataValidationTest extends TestCase {
 
     /**
      * Provides a set of value for plain validation.

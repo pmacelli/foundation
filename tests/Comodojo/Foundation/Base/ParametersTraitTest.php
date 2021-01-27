@@ -1,8 +1,10 @@
 <?php namespace Comodojo\Dispatcher\Tests\Components;
 
 use \Comodojo\Foundation\Base\ParametersTrait;
+use \PHPUnit\Framework\TestCase;
 
-class ParametersTraitTest extends \PHPUnit_Framework_TestCase {
+class ParametersTraitTest extends TestCase
+{
 
     use ParametersTrait;
 
@@ -10,19 +12,21 @@ class ParametersTraitTest extends \PHPUnit_Framework_TestCase {
 
     protected $value = "lorem";
 
-    protected function setUp() {
+    protected function setUp(): void
+    {
 
         $this->set($this->param, $this->value);
 
     }
 
-    public function testParameters() {
+    public function testParameters()
+    {
 
         $this->assertEquals($this->value, $this->get($this->param));
 
         $params = $this->get();
 
-        $this->assertInternalType('array', $params);
+        $this->assertIsArray($params);
 
         $this->assertEquals(1, count($params));
 

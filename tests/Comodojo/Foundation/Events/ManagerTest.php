@@ -3,12 +3,13 @@
 use \Comodojo\Foundation\Events\Manager;
 use \League\Event\Emitter;
 use \Monolog\Logger;
+use \PHPUnit\Framework\TestCase;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase {
+class ManagerTest extends TestCase {
 
     private static $events;
 
-    public static function setupBeforeClass() {
+    public static function setupBeforeClass(): void {
 
         $logger = new Logger('test');
 

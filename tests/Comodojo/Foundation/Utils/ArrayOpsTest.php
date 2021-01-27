@@ -1,8 +1,9 @@
 <?php namespace Comodojo\Foundation\Tests\Utils;
 
 use \Comodojo\Foundation\Utils\ArrayOps;
+use \PHPUnit\Framework\TestCase;
 
-class ArrayOpsTest extends \PHPUnit_Framework_TestCase {
+class ArrayOpsTest extends TestCase {
 
     protected $source = [
         "Marvin" => "Sad Robot",

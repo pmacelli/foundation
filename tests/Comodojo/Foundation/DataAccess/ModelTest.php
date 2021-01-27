@@ -1,6 +1,10 @@
 <?php namespace Comodojo\Foundation\Tests\DataAccess;
 
-class ModelTest extends \PHPUnit_Framework_TestCase {
+use \PHPUnit\Framework\TestCase;
+use \UnexpectedValueException;
+use \BadMethodCallException;
+
+class ModelTest extends TestCase {
 
     public $question = "Ultimate Question of Life, The Universe, and Everything";
 
@@ -30,13 +34,11 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testPdModelAddException() {
 
-        $model = new MockPdModel();
+        $this->expectException(UnexpectedValueException::class);
 
+        $model = new MockPdModel();
         $model->marvin = "Sad Robot";
 
     }
@@ -53,35 +55,29 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testPdModelUnsetException() {
 
-        $model = new MockPdModel();
+        $this->expectException(BadMethodCallException::class);
 
+        $model = new MockPdModel();
         unset($model->answer);
 
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testPdModelMergeException() {
 
-        $model = new MockPdModel();
+        $this->expectException(UnexpectedValueException::class);
 
+        $model = new MockPdModel();
         $model->merge(['marvin' => "Sad Robot"]);
 
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testPdModelImportException() {
 
-        $model = new MockPdModel();
+        $this->expectException(UnexpectedValueException::class);
 
+        $model = new MockPdModel();
         $model->merge(['answer' => $this->wrong_answer, "question" => $this->question, 'marvin' => "Sad Robot"]);
 
     }
@@ -95,24 +91,20 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testRoModelSetException() {
 
-        $model = new MockRoModel();
+        $this->expectException(BadMethodCallException::class);
 
+        $model = new MockRoModel();
         $model->answer = $this->wrong_answer;
 
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testRoModelUnsetException() {
 
-        $model = new MockRoModel();
+        $this->expectException(BadMethodCallException::class);
 
+        $model = new MockRoModel();
         unset($model->answer);
 
     }

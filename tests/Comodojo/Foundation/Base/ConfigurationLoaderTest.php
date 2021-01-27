@@ -1,32 +1,31 @@
 <?php namespace Comodojo\Foundation\Tests\Base;
 
 use \Comodojo\Foundation\Base\ConfigurationLoader;
+use \PHPUnit\Framework\TestCase;
 
-class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase {
+class ConfigurationLoaderTest extends TestCase
+{
 
     protected $config;
 
-    protected function setUp() {
-
-        $basepath = realpath(dirname(__FILE__)."/../../../root/");
+    protected function setUp(): void
+    {
+        $basepath = realpath(dirname(__FILE__) . "/../../../root/");
         $config_file = "$basepath/config/config.yml";
 
         $this->config = ConfigurationLoader::load($config_file, [
-            'base-path' => $basepath
+            'base-path' => $basepath,
         ]);
-
     }
 
-    protected function tearDown() {
-
+    protected function tearDown(): void
+    {
         unset($this->config);
-
     }
 
-    public function testConfiguration() {
-
+    public function testConfiguration()
+    {
         $this->assertEquals(300, $this->config->get("routing-table-ttl"));
-
     }
 
 }

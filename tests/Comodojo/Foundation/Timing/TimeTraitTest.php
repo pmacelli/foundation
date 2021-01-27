@@ -1,8 +1,9 @@
 <?php namespace Comodojo\Foundation\Tests\Timing;
 
 use \Comodojo\Foundation\Timing\TimeTrait;
+use \PHPUnit\Framework\TestCase;
 
-class TimeTraitTest extends \PHPUnit_Framework_TestCase {
+class TimeTraitTest extends TestCase {
 
     use TimeTrait;
 

@@ -2,8 +2,10 @@
 
 use Comodojo\Foundation\Tests\Mock\Version;
 use \Comodojo\Foundation\Base\ConfigurationLoader;
+use \PHPUnit\Framework\TestCase;
 
-class VersionTest extends \PHPUnit_Framework_TestCase {
+class VersionTest extends TestCase
+{
 
     protected $config;
 
@@ -16,24 +18,27 @@ class VersionTest extends \PHPUnit_Framework_TestCase {
 
     protected $template = "{name} + {description} + {version}";
 
-    protected function setUp() {
+    protected function setUp(): void
+    {
 
-        $basepath = realpath(dirname(__FILE__)."/../../../root/");
+        $basepath = realpath(dirname(__FILE__) . "/../../../root/");
         $config_file = "$basepath/config/config.yml";
 
         $this->config = ConfigurationLoader::load($config_file, [
-            'base-path' => $basepath
+            'base-path' => $basepath,
         ]);
 
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void
+    {
 
         unset($this->config);
 
     }
 
-    public function testVersion() {
+    public function testVersion()
+    {
 
         $version = new Version();
 
@@ -44,7 +49,8 @@ class VersionTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testVersionConfigurationOverride() {
+    public function testVersionConfigurationOverride()
+    {
 
         $version = new Version($this->config);
 

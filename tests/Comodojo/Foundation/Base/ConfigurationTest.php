@@ -1,10 +1,13 @@
 <?php namespace Comodojo\Foundation\Tests\Base;
 
 use \Comodojo\Foundation\Base\Configuration;
+use \PHPUnit\Framework\TestCase;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase {
+class ConfigurationTest extends TestCase
+{
 
-    protected function setUp() {
+    protected function setUp(): void
+    {
 
         $test_values = [
             "foo" => "boo",
@@ -12,25 +15,27 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
                 "a" => "lorem",
                 "b" => "ipsum",
                 "c" => [
-                    "dolor" => "sit"
-                ]
+                    "dolor" => "sit",
+                ],
             ],
             "b" => false,
             "c" => 42,
-            "d" => (object) array("a" => "lorem", "b" => "ipsum"),
+            "d" => (object) ["a" => "lorem", "b" => "ipsum"],
         ];
 
-        $this->config = new Configuration( $test_values );
+        $this->config = new Configuration($test_values);
 
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void
+    {
 
         unset($this->config);
 
     }
 
-    public function testGetSetDelete() {
+    public function testGetSetDelete()
+    {
 
         $param = 'test';
 
@@ -50,18 +55,20 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetAll() {
+    public function testGetAll()
+    {
 
         $config = $this->config->get();
 
-        $this->assertInternalType('array', $config);
+        $this->assertIsArray($config);
 
         $this->assertEquals($config["c"], 42);
         $this->assertEquals($config["a"]["a"], 'lorem');
 
     }
 
-    public function testHas() {
+    public function testHas()
+    {
 
         $this->assertTrue($this->config->has('a'));
 
@@ -71,7 +78,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testWholeDelete() {
+    public function testWholeDelete()
+    {
 
         $this->assertTrue($result = $this->config->delete());
 
@@ -79,7 +87,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testMerge() {
+    public function testMerge()
+    {
 
         $new_props = array("a" => false, "b" => true);
 
@@ -90,7 +99,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSelectiveCrud() {
+    public function testSelectiveCrud()
+    {
 
         $this->config->set("a.c.amet", true);
 
@@ -98,7 +108,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         $ac_value = $this->config->get("a.c");
 
-        $this->assertInternalType('array', $ac_value);
+        $this->assertIsArray($ac_value);
         $this->assertArrayHasKey('dolor', $ac_value);
         $this->assertArrayHasKey('amet', $ac_value);
         $this->assertEquals('sit', $ac_value['dolor']);
@@ -107,7 +117,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         $ac_value = $this->config->get("a.c");
 
-        $this->assertInternalType('array', $ac_value);
+        $this->assertIsArray($ac_value);
         $this->assertArrayHasKey('dolor', $ac_value);
         $this->assertArrayNotHasKey('amet', $ac_value);
 
@@ -115,13 +125,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testStaticConstructor() {
+    public function testStaticConstructor()
+    {
 
-        $config = Configuration::create(["this"=>"is","a"=>["config", "statement"]]);
+        $config = Configuration::create(["this" => "is", "a" => ["config", "statement"]]);
 
         $this->assertInstanceOf('\\Comodojo\\Foundation\\Base\\Configuration', $config);
         $this->assertEquals("is", $config->get("this"));
-        $this->assertInternalType('array', $config->get("a"));
+        $this->assertIsArray($config->get("a"));
 
     }
 

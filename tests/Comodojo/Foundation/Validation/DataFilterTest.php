@@ -1,8 +1,9 @@
 <?php namespace Comodojo\Foundation\Tests\Validation;
 
 use \Comodojo\Foundation\Validation\DataFilter as Filter;
+use \PHPUnit\Framework\TestCase;
 
-class DataFilterTest extends \PHPUnit_Framework_TestCase {
+class DataFilterTest extends TestCase {
 
     public function testFilterInteger() {
 

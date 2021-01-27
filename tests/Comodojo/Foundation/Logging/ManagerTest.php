@@ -2,31 +2,34 @@
 
 use \Comodojo\Foundation\Base\Configuration;
 use \Comodojo\Foundation\Logging\Manager;
+use \PHPUnit\Framework\TestCase;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase {
+class ManagerTest extends TestCase
+{
 
-    protected static $local_config = array(
-        "log" => array(
+    protected static $local_config = [
+        "log" => [
             "name" => "test",
-            "providers" => array(
-                "test" => array(
+            "providers" => [
+                "test" => [
                     "type" => "StreamHandler",
                     "stream" => "log/log_manager_test.log",
-                    "level" => "debug"
-                )
-            )
-        )
-    );
+                    "level" => "debug",
+                ],
+            ],
+        ],
+    ];
 
-    public function testLocal() {
+    public function testLocal()
+    {
 
         $config = array_merge(self::$local_config, array(
-            "base-path" => realpath(dirname(__FILE__)."/../../../root/")
+            "base-path" => realpath(dirname(__FILE__) . "/../../../root/"),
         ));
 
-        $configuration = new Configuration( $config );
+        $configuration = new Configuration($config);
 
-        $file = $configuration->get("base-path")."/log/log_manager_test.log";
+        $file = $configuration->get("base-path") . "/log/log_manager_test.log";
 
         @unlink($file);
 

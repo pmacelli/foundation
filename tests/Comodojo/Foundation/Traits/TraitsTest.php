@@ -4,14 +4,15 @@ use \Comodojo\Foundation\Tests\Mock\TraitsContainer;
 use \Comodojo\Foundation\Base\Configuration;
 use \Comodojo\Foundation\Logging\Manager as LogManager;
 use \Comodojo\Foundation\Events\Manager as EventsManager;
+use \PHPUnit\Framework\TestCase;
 
-class TraitsTest extends \PHPUnit_Framework_TestCase {
+class TraitsTest extends TestCase {
 
     protected static $config;
     protected static $logger;
     protected static $events;
 
-    public static function setupBeforeClass() {
+    public static function setupBeforeClass(): void {
 
         self::$config = new Configuration([]);
         self::$logger = new LogManager('test');

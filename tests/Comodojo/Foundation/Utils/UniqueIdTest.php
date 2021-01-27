@@ -1,8 +1,9 @@
 <?php namespace Comodojo\Foundation\Tests\Utils;
 
 use \Comodojo\Foundation\Utils\UniqueId;
+use \PHPUnit\Framework\TestCase;
 
-class UniqueIdTest extends \PHPUnit_Framework_TestCase {
+class UniqueIdTest extends TestCase {
 
     const GENERATED_UIDS = 10000;
 
