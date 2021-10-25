@@ -25,7 +25,7 @@
         }
     },
     "require": {
-        "php": ">=^7.3",
+        "php": "^7.3",
         "pmarcelli/exceptions": "dev-exceptions_u7320",
         "monolog/monolog": "^2.3",
         "league/event": "^2.1",
