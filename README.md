@@ -1,12 +1,14 @@
 # Comodojo foundation
 
-[![Build Status](https://api.travis-ci.org/comodojo/foundation.png)](http://travis-ci.org/comodojo/foundation) [![Latest Stable Version](https://poser.pugx.org/comodojo/foundation/v/stable)](https://packagist.org/packages/comodojo/foundation) [![Total Downloads](https://poser.pugx.org/comodojo/foundation/downloads)](https://packagist.org/packages/comodojo/foundation) [![Latest Unstable Version](https://poser.pugx.org/comodojo/foundation/v/unstable)](https://packagist.org/packages/comodojo/foundation) [![License](https://poser.pugx.org/comodojo/foundation/license)](https://packagist.org/packages/comodojo/foundation) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/comodojo/foundation/badges/quality-score.png?b=1.0)](https://scrutinizer-ci.com/g/comodojo/foundation/?branch=1.0) [![Code Coverage](https://scrutinizer-ci.com/g/comodojo/foundation/badges/coverage.png?b=1.0)](https://scrutinizer-ci.com/g/comodojo/foundation/?branch=1.0)
+[![Build Status](https://api.travis-ci.org/comodojo/foundation.png)](http://travis-ci.org/comodojo/foundation) [![Latest Stable Version](https://poser.pugx.org/comodojo/foundation/v/stable)](https://packagist.org/packages/comodojo/foundation) [![Total Downloads](https://poser.pugx.org/comodojo/foundation/downloads)](https://packagist.org/packages/comodojo/foundation) [![Latest Unstable Version](https://poser.pugx.org/comodojo/foundation/v/unstable)](https://packagist.org/packages/comodojo/foundation) [![License](https://poser.pugx.org/comodojo/foundation/license)](https://packagist.org/packages/comodojo/foundation) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/comodojo/foundation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/comodojo/foundation/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/comodojo/foundation/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/comodojo/foundation/?branch=master)
 
 Foundation classes for the comodojo project.
 
+***This is the development branch, please do not use it in production***
+
 ## Requirements
 
-- php >=7.3
+- php >=5.6.0
 
 ## Installation
 
