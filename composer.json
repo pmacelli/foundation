@@ -1,5 +1,5 @@
 {
-    "name": "pmarcelli/foundation",
+    "name": "comodojo/foundation",
     "description": "Foundation classes for the comodojo project",
     "license": "MIT",
     "type": "library",
@@ -26,7 +26,7 @@
     },
     "require": {
         "php": ">=5.6.0",
-        "pmarcelli/exceptions": "dev-exceptions_u7320",
+        "comodojo/exceptions": "dev-master",
         "monolog/monolog": "^1.0|^2.3",
         "league/event": "^2.1",
         "symfony/console": "^3.4|^4.0|^5.0",
